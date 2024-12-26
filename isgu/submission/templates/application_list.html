@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список заявлений</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f9;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .status {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+        }
+        .status.not_reviewed {
+            background-color: #ffc107; /* Желтый: Не рассмотрено */
+        }
+        .status.invalid_docs {
+            background-color: #dc3545; /* Красный: Неправильные документы */
+        }
+        .status.rejected {
+            background-color: #6c757d; /* Серый: Отказано */
+        }
+        .status.approved {
+            background-color: #28a745; /* Зеленый: Аккредитовано */
+        }
+    </style>
+</head>
+<body>
+    <h1>Список заявлений</h1>
+
+    <h2>Необработанные заявления</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>ОГРН</th>
+                <th>ИНН</th>
+                <th>Статус</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in pending %}
+            <tr>
+                <td>{{ application.full_name }}</td>
+                <td>{{ application.ogrn }}</td>
+                <td>{{ application.inn }}</td>
+                <td>
+                    <span class="status {{ application.status }}">
+                        {{ application.get_status_display }}
+                    </span>
+                </td>
+                <td><a href="{% url 'application_detail' application.id %}">Просмотр</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Обработанные заявления</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>ОГРН</th>
+                <th>ИНН</th>
+                <th>Статус</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in processed %}
+            <tr>
+                <td>{{ application.full_name }}</td>
+                <td>{{ application.ogrn }}</td>
+                <td>{{ application.inn }}</td>
+                <td>
+                    <span class="status {{ application.status }}">
+                        {{ application.get_status_display }}
+                    </span>
+                </td>
+                <td><a href="{% url 'application_detail' application.id %}">Просмотр</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

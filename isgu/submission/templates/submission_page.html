@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подача заявки</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-container {
+            flex: 2;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        textarea {
+            width: 100%; /* Подстраивается под ширину родителя */
+            box-sizing: border-box; /* Включает padding и border в ширину */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+
+        button[type="submit"] {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .info-container {
+            flex: 1;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .info-container h2 {
+            margin-top: 0;
+        }
+
+        .info-container ul {
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Подача заявки на аккредитацию</h1>
+        <div class="content">
+            <div class="form-container">
+                <form id="submission-form" method="post">
+                    {% csrf_token %}
+                    <!-- Сведения о заявителе -->
+                    <h2>Сведения о заявителе</h2>
+                    <div class="form-group">
+                        <label for="applicant_category">Категория заявителя</label>
+                        <input type="text" id="applicant_category" name="applicant_category" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="full_name">Полное наименование</label>
+                        <input type="text" id="full_name" name="full_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ogrn">ОГРН</label>
+                        <input type="text" id="ogrn" name="ogrn" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inn">ИНН</label>
+                        <input type="text" id="inn" name="inn" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone_number">Номер телефона</label>
+                        <input type="tel" id="phone_number" name="phone_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Адрес электронной почты</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+
+                    <!-- Сведения об уполномоченном лице -->
+                    <h2>Сведения об уполномоченном лице</h2>
+                    <div class="form-group">
+                        <label for="representative_category">Категория уполномоченного лица</label>
+                        <input type="text" id="representative_category" name="representative_category" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Фамилия</label>
+                        <input type="text" id="last_name" name="last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="first_name">Имя</label>
+                        <input type="text" id="first_name" name="first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="middle_name">Отчество</label>
+                        <input type="text" id="middle_name" name="middle_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="representative_phone_number">Номер телефона</label>
+                        <input type="tel" id="representative_phone_number" name="representative_phone_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="representative_email">Адрес электронной почты</label>
+                        <input type="email" id="representative_email" name="representative_email">
+                    </div>
+
+                    <!-- Документ, удостоверяющий личность -->
+                    <h2>Документ, удостоверяющий личность</h2>
+                    <div class="form-group">
+                        <label for="document_type">Тип документа</label>
+                        <input type="text" id="document_type" name="document_type" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="document_series">Серия</label>
+                        <input type="text" id="document_series" name="document_series" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="document_number">Номер</label>
+                        <input type="text" id="document_number" name="document_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="document_date">Дата выдачи</label>
+                        <input type="date" id="document_date" name="document_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="issued_by">Кем выдан</label>
+                        <textarea id="issued_by" name="issued_by" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="subdivision_code">Код подразделения</label>
+                        <input type="text" id="subdivision_code" name="subdivision_code" required>
+                    </div>
+
+                    <button type="submit" id="submit-button" disabled>Отправить заявку</button>
+                </form>
+            </div>
+            <div class="info-container">
+                <h2>Полезная информация</h2>
+                <p>Для подачи заявки заполните все поля формы. Убедитесь, что данные корректны.</p>
+                <ul>
+                    <li>Срок рассмотрения заявки: 1 рабочий день.</li>
+                    <li>Необходимые документы: учредительные документы, паспортные данные.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("submission-form");
+            const submitButton = document.getElementById("submit-button");
+            const inputs = form.querySelectorAll("input, textarea");
+
+            const validateForm = () => {
+                let isValid = true;
+                inputs.forEach(input => {
+                    if (input.hasAttribute("required") && input.value.trim() === "") {
+                        isValid = false;
+                    }
+                });
+                submitButton.disabled = !isValid;
+            };
+
+            inputs.forEach(input => {
+                input.addEventListener("input", validateForm);
+            });
+
+            validateForm(); // Initial validation
+        });
+    </script>
+</body>
+</html>
